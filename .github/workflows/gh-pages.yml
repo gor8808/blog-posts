@@ -36,19 +36,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Resolve baseURL
-        id: baseurl
-        run: |
-          REPO="${{ github.event.repository.name }}"
-          OWNER="${{ github.repository_owner }}"
-          if [ "$REPO" = "${OWNER}.github.io" ]; then
-            echo "baseurl=https://${OWNER}.github.io/" >> "$GITHUB_OUTPUT"
-          else
-            echo "baseurl=https://${OWNER}.github.io/${REPO}/" >> "$GITHUB_OUTPUT"
-          fi
-
       - name: Build
-        run: npm run build -- --baseURL "${{ steps.baseurl.outputs.baseurl }}" --environment production
+        run: npm run build -- --environment production
 
       - name: Setup htmltest
         uses: wjdp/htmltest-action@master
