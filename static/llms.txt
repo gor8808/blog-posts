@@ -1,0 +1,16 @@
+# Gor's Tech Blog
+
+Purpose: A personal tech blog focused on real-world engineering tradeoffs, performance tuning, and debugging production systems.
+
+Topics:
+- Observability and monitoring
+- Backend performance and profiling
+- Infrastructure and reliability
+- Developer tooling and workflows
+
+Start here:
+- /blog/
+- /tags/
+
+Top series/pages:
+- /blog/

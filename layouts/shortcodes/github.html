@@ -1,0 +1,40 @@
+{{- $repo := .Get "repo" -}}
+{{- $parts := split $repo "/" -}}
+{{- $user := index $parts 0 -}}
+{{- $repoName := index $parts 1 -}}
+<a class="github-card-link" href="https://github.com/{{ $repo }}" target="_blank" rel="noopener" data-user="{{ $user }}" data-repo="{{ $repoName }}">
+  <img class="github-card-img" src="https://github-readme-stats.vercel.app/api/pin/?username={{ $user }}&repo={{ $repoName }}&show_owner=true&theme=default" alt="{{ $repo }}" />
+</a>
+
+{{- if not (.Page.Scratch.Get "githubCardScriptLoaded") -}}
+  {{- .Page.Scratch.Set "githubCardScriptLoaded" true -}}
+  <script>
+    (function() {
+      function updateGitHubCards() {
+        const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+        const theme = isDark ? 'dark' : 'default';
+        document.querySelectorAll('.github-card-link').forEach(function(link) {
+          const user = link.getAttribute('data-user');
+          const repo = link.getAttribute('data-repo');
+          const img = link.querySelector('.github-card-img');
+          if (img) {
+            img.src = 'https://github-readme-stats.vercel.app/api/pin/?username=' + user + '&repo=' + repo + '&show_owner=true&theme=' + theme;
+          }
+        });
+      }
+
+      // Initial update
+      updateGitHubCards();
+
+      // Watch for theme changes
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.attributeName === 'data-bs-theme') {
+            updateGitHubCards();
+          }
+        });
+      });
+      observer.observe(document.documentElement, { attributes: true });
+    })();
+  </script>
+{{- end -}}

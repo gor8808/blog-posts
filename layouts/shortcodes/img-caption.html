@@ -1,0 +1,16 @@
+{{- $src := .Get "src" -}}
+{{- $caption := .Get "caption" -}}
+{{- $link := .Get "link" -}}
+{{- $alt := default $caption (.Get "alt") -}}
+{{- $width := .Get "width" | default "100%" -}}
+{{- $maxWidth := .Get "maxWidth" | default "700px" -}}
+<div class="text-center image-container">
+  <img src="{{ $src }}" alt="{{ $alt }}"
+    style="width: {{ $width }}; max-width: {{ $maxWidth }}; height: auto; display: block; margin: 0 auto;" />
+  <p class="figure-caption mt-2" style="font-size: 0.85rem;">
+    {{- $caption -}}
+    {{- with $link -}}
+    {{- if $caption }} — {{ end -}}<a href="{{ . }}" target="_blank">Read more</a>
+    {{- end -}}
+  </p>
+</div>

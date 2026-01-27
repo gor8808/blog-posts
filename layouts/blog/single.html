@@ -1,0 +1,69 @@
+{{ define "main" }}
+{{ $author := site.Params.author.name | default site.Title }}
+{{ $description := .Params.description | default .Summary | plainify }}
+{{ $json := dict "@context" "https://schema.org" "@type" "BlogPosting" "headline" .Title "description" $description
+"datePublished" (.Date.Format "2006-01-02T15:04:05Z07:00") "dateModified" (.Lastmod.Format "2006-01-02T15:04:05Z07:00")
+"mainEntityOfPage" .Permalink "author" (dict "@type" "Person" "name" $author) }}
+{{ if .Params.images }}
+{{ $imgName := index .Params.images 0 }}
+{{ $imgSrc := $imgName }}
+{{ if not (or (hasPrefix $imgName "/") (hasPrefix $imgName "http")) }}
+{{ with .Resources.GetMatch $imgName }}
+{{ $imgSrc = .Permalink }}
+{{ else }}
+{{ $imgSrc = printf "%s%s" .Permalink $imgName }}
+{{ end }}
+{{ end }}
+{{ $json = merge $json (dict "image" $imgSrc) }}
+{{ end }}
+<script type="application/ld+json">{{ $json | jsonify }}</script>
+
+<article class="container-fluid px-lg-5 pt-3 mt-n3">
+  <div class="row justify-content-center">
+    <div class="col-lg-11 col-xl-10">
+      <header class="mb-3">
+        <p class="text-muted small mb-2">{{ .Date.Format "Jan 2, 2006" }} · {{ .ReadingTime }} min read</p>
+        <h1 class="display-5 mb-3 fw-bold">{{ .Title }}</h1>
+        {{ if .Params.images }}
+        {{ $imgName := index .Params.images 0 }}
+        {{ $imgSrc := $imgName }}
+        {{ if not (or (hasPrefix $imgName "/") (hasPrefix $imgName "http")) }}
+        {{ with .Resources.GetMatch $imgName }}
+        {{ $imgSrc = .RelPermalink }}
+        {{ else }}
+        {{ $imgSrc = printf "%s%s" $.RelPermalink $imgName }}
+        {{ end }}
+        {{ end }}
+        <img src="{{ $imgSrc }}" class="img-fluid rounded-4 mb-4 w-100" style="max-height: 400px; object-fit: cover;"
+          alt="{{ .Title }}">
+        {{ end }}
+        {{ with .Params.series }}
+        <p class="mb-2">Series:
+          {{ range $index, $item := . }}
+          {{ if $index }}, {{ end }}<a class="text-decoration-none" href="{{ " /series/" | relLangURL }}{{ $item |
+            urlize }}/">{{ $item }}</a>
+          {{ end }}
+        </p>
+        {{ end }}
+        <div class="d-flex flex-wrap gap-2">
+          {{ range .Params.tags }}
+          <a class="badge bg-light text-dark text-decoration-none" href="{{ " /tags/" | relLangURL }}{{ replace (. |
+            lower) "#" "%23" }}/">{{ . }}</a>
+          {{ end }}
+        </div>
+      </header>
+
+      {{ if .TableOfContents }}
+      <nav class="toc p-3 border rounded-4" style="background: rgba(255,255,255,0.02);">
+        <h2 class="h6 text-uppercase text-muted mb-3 fw-bold">Table of Contents</h2>
+        {{ .TableOfContents }}
+      </nav>
+      {{ end }}
+
+      <div class="content mb-5 fs-5">
+        {{ .Content }}
+      </div>
+    </div>
+  </div>
+</article>
+{{ end }}

@@ -1,0 +1,89 @@
+// Put your custom SCSS code here
+
+// Auto-hide navbar on scroll
+.navbar {
+  transition: transform 0.3s ease;
+}
+
+.navbar--hidden {
+  transform: translateY(-100%);
+}
+
+.image-container>img {
+  margin-top: 30px !important;
+}
+
+
+// Medium-style typography for blog posts
+p {
+  margin-top: 2.14em;
+  margin-bottom: -0.46em;
+  line-height: 28px;
+  font-size: 18px;
+  font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+
+
+// Paragraph after heading - closer spacing
+h2+p,
+h3+p,
+h4+p,
+h5+p,
+h6+p {
+  margin-top: 0.94em;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 1.95em;
+  margin-bottom: -0.28em;
+}
+
+// Table of Contents styling - using ID selector to override theme defaults
+#TableOfContents {
+  ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+
+    li {
+      margin-bottom: 0.5rem;
+
+      a {
+        color: inherit;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    // Nested lists - add indentation
+    ul {
+      padding-left: 1.25rem;
+      margin-top: 0.5rem;
+      margin-left: 0.5rem;
+      border-left: 2px solid var(--bs-primary);
+
+      li a {
+        font-size: 0.95em;
+        opacity: 0.85;
+      }
+
+      // Deeper nesting
+      ul {
+        border-left-color: rgba(var(--bs-primary-rgb), 0.5);
+
+        li a {
+          font-size: 0.9em;
+          opacity: 0.75;
+        }
+      }
+    }
+  }
+}
