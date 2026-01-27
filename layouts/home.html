@@ -27,44 +27,34 @@
         <a class="text-decoration-none fw-bold" href="{{ "blog/" | relURL }}">View all posts →</a>
       </div>
       {{ if gt (len $featured) 0 }}
-      <div class="row g-4 justify-content-center">
+      <div class="featured-list">
         {{ range $featured }}
-        <div class="{{ if eq (len $featured) 1 }}col-md-8 col-lg-6{{ else }}col-md-6 col-lg-4{{ end }}">
-          <article
-            class="border rounded-4 h-100 d-flex flex-column overflow-hidden shadow-sm hover-shadow transition-all bg-body-tertiary position-relative"
-            style="cursor: pointer;">
-            {{ if .Params.images }}
-              {{ $post := . }}
-              {{ $imgName := index .Params.images 0 }}
-              {{ $imgSrc := $imgName }}
-              {{/* Check if it's a page resource (just filename) or absolute/external path */}}
-              {{ if not (or (hasPrefix $imgName "/") (hasPrefix $imgName "http")) }}
-                {{ with $post.Resources.GetMatch $imgName }}
-                  {{ $imgSrc = .RelPermalink }}
-                {{ else }}
-                  {{/* Fallback: construct path from page permalink */}}
-                  {{ $imgSrc = printf "%s%s" $post.RelPermalink $imgName }}
-                {{ end }}
+        <article class="featured-row d-flex align-items-center position-relative">
+          <div class="featured-row__content flex-grow-1">
+            <p class="text-muted small mb-2">{{ .Date.Format "Jan 2, 2006" }} · {{ .ReadingTime }} min read</p>
+            <h3 class="featured-row__title h4 fw-bold mb-2">
+              <a class="text-decoration-none stretched-link" href="{{ .RelPermalink }}">{{ .Title }}</a>
+            </h3>
+            <p class="featured-row__summary text-muted mb-0">{{ .Summary | truncate 140 }}</p>
+          </div>
+          {{ if .Params.images }}
+            {{ $post := . }}
+            {{ $imgName := index .Params.images 0 }}
+            {{ $imgSrc := $imgName }}
+            {{/* Check if it's a page resource (just filename) or absolute/external path */}}
+            {{ if not (or (hasPrefix $imgName "/") (hasPrefix $imgName "http")) }}
+              {{ with $post.Resources.GetMatch $imgName }}
+                {{ $imgSrc = .RelPermalink }}
+              {{ else }}
+                {{/* Fallback: construct path from page permalink */}}
+                {{ $imgSrc = printf "%s%s" $post.RelPermalink $imgName }}
               {{ end }}
-              <div>
-                <img src="{{ $imgSrc }}" class="img-fluid w-100" style="object-fit: cover; height: {{ if eq (len $featured) 1 }}220px{{ else }}180px{{ end }};"
-                  alt="{{ $post.Title }}">
-              </div>
             {{ end }}
-            <div class="p-4 d-flex flex-column flex-grow-1">
-              <p class="text-muted small mb-2">{{ .Date.Format "Jan 2, 2006" }} · {{ .ReadingTime }} min read</p>
-              <h3 class="h5 fw-bold mb-2"><a
-                  class="text-decoration-none stretched-link" href="{{ .RelPermalink }}">{{ .Title }}</a>
-              </h3>
-              <p class="text-muted small mb-3 flex-grow-1">{{ .Summary | truncate 160 }}</p>
-              <div class="d-flex flex-wrap gap-2 position-relative" style="z-index: 2;">
-                {{ range .Params.tags }}
-                <span class="badge bg-secondary text-white text-decoration-none">{{ . }}</span>
-                {{ end }}
-              </div>
+            <div class="featured-row__media">
+              <img src="{{ $imgSrc }}" class="featured-row__img" alt="{{ $post.Title }}">
             </div>
-          </article>
-        </div>
+          {{ end }}
+        </article>
         {{ end }}
       </div>
       {{ else }}

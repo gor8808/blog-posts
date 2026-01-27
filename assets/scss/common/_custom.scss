@@ -15,7 +15,7 @@
 
 
 // Medium-style typography for blog posts
-p {
+.blog-content p {
   margin-top: 2.14em;
   margin-bottom: -0.46em;
   line-height: 28px;
@@ -23,24 +23,103 @@ p {
   font-family: Georgia, Cambria, "Times New Roman", Times, serif;
 }
 
-
-
 // Paragraph after heading - closer spacing
-h2+p,
-h3+p,
-h4+p,
-h5+p,
-h6+p {
+.blog-content h2+p,
+.blog-content h3+p,
+.blog-content h4+p,
+.blog-content h5+p,
+.blog-content h6+p {
   margin-top: 0.94em;
 }
 
-h2,
-h3,
-h4,
-h5,
-h6 {
+.blog-content h2,
+.blog-content h3,
+.blog-content h4,
+.blog-content h5,
+.blog-content h6 {
   margin-top: 1.95em;
   margin-bottom: -0.28em;
+}
+
+// Featured posts list layout
+.featured-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.featured-row {
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  gap: 24px;
+  align-items: center;
+}
+
+.featured-row:last-child {
+  border-bottom: 0;
+}
+
+.featured-row__content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.featured-row__content .mb-2 {
+  margin-bottom: 0 !important;
+}
+
+.featured-row__content p {
+  margin: 0;
+}
+
+.featured-row__title {
+  margin: 0;
+}
+
+.featured-row__title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.featured-row__summary {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.featured-row__media {
+  flex: 0 0 160px;
+  max-width: 160px;
+  margin-left: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.featured-row__img {
+  width: 160px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+@media (max-width: 767.98px) {
+  .featured-row {
+    flex-direction: column;
+  }
+
+  .featured-row__media {
+    max-width: 100%;
+  }
+
+  .featured-row__img {
+    width: 100%;
+    height: 180px;
+  }
 }
 
 // Table of Contents styling - using ID selector to override theme defaults
