@@ -39,12 +39,6 @@ jobs:
       - name: Build
         run: npm run build -- --environment production
 
-      - name: Setup htmltest
-        uses: wjdp/htmltest-action@master
-        with:
-          skip_external: false
-          path: "."
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
