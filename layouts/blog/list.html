@@ -25,7 +25,7 @@
           <p class="mb-3">{{ .Summary }}</p>
           <div class="d-flex flex-wrap gap-2">
             {{ range .Params.tags }}
-              <a class="badge bg-light text-dark text-decoration-none" href="{{ "/tags/" | relLangURL }}{{ replace (. | lower) "#" "%23" }}/">{{ . }}</a>
+              <a class="badge bg-light text-dark text-decoration-none" href="{{ "/tags/" | relLangURL }}{{ . | urlize }}/">{{ . }}</a>
             {{ end }}
           </div>
         </article>
