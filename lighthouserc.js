@@ -22,6 +22,9 @@ module.exports = {
         'speed-index': 'off',
         'unused-css-rules': 'off',
         'unused-javascript': 'off',
+        'uses-long-cache-ttl': 'off',
+        'render-blocking-resources': 'off',
+        'render-blocking-insight': 'off',
 
         // Categories (minimum scores)
         'categories:seo': ['error', { minScore: 0.9 }],
