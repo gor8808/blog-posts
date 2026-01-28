@@ -21,7 +21,7 @@ copyRight = "Copyright (c) 2024 Gor"
   enable = true
 
 [outputs]
-  home = ["HTML", "RSS", "searchIndex"]
+  home = ["HTML", "RSS", "searchIndex", "sitemap"]
   section = ["HTML", "RSS", "SITEMAP"]
 
 [outputFormats.searchIndex]
