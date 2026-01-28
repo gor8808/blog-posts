@@ -1,6 +1,7 @@
 module.exports = {
   ci: {
     collect: {
+      numberOfRuns: 1,
       staticDistDir: './public',
       autodiscoverUrlBlocklist: ['/tags/', '/categories/', '/contributors/', '/404.html'],
     },
