@@ -16,7 +16,7 @@
 {{ end }}
 {{ $json = merge $json (dict "image" $imgSrc) }}
 {{ end }}
-<script type="application/ld+json">{{ $json | jsonify }}</script>
+<script type="application/ld+json">{{ $json | jsonify | safeHTML }}</script>
 
 <article class="container-fluid px-lg-5 pt-3 mt-n3">
   <div class="row justify-content-center">
