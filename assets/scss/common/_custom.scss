@@ -11,6 +11,17 @@
 
 .image-container>img {
   margin-top: 30px !important;
+  content-visibility: auto; // Optimize high-ref rendering
+}
+
+.featured-row {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 150px;
+}
+
+.bg-dots {
+  will-change: transform; // Hint to browser to isolate this layer
+  pointer-events: none; // Ensure it doesn't capture clicks
 }
 
 // Accessibility: Improve color contrast ratios

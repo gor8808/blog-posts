@@ -1,0 +1,16 @@
+{{- $css := "" -}}
+{{- if eq (hugo.Environment) "development" -}}
+  {{- $options := (dict "targetPath" "main.css" "transpiler" "libsass" "enableSourceMap" true "includePaths" (slice "node_modules")) -}}
+  {{- $css = resources.Get .src | toCSS $options | resources.Fingerprint "sha512" -}}
+{{- else -}}
+  {{- $options := (dict "targetPath" "main.css" "transpiler" "libsass" "outputStyle" "compressed" "includePaths" (slice "node_modules")) -}}
+  {{- $css = resources.Get .src | toCSS $options | postCSS (dict "config" "config/postcss.config.js") |  resources.Fingerprint "sha512" -}}
+{{- end -}}
+{{- if .ctx.IsHome -}}
+<style>{{ $css.Content | safeCSS }}</style>
+{{- else -}}
+{{- $css = $css | resources.PostProcess -}}
+<link rel="preload" href="{{ $css.RelPermalink }}" as="style">
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}" crossorigin="anonymous" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="{{ $css.RelPermalink }}"></noscript>
+{{- end -}}
