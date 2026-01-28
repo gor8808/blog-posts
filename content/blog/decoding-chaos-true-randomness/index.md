@@ -78,6 +78,8 @@ For humans, it's an easy task to generate a random number, say a random word, or
 
 If you have seen the 2015 movie Focus, you may remember the "priming" scene where they spend the day "priming" their victim to subconsciously recognize and choose the number 55 by having it represented all around him.
 
+<br>
+
 <div class="text-center image-container">
 <iframe width="640" height="360" src="https://www.youtube.com/embed/otWiLwwxo5o?si=kEr_VNiVCkbzugAG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" rel="noopener noreferrer" allowfullscreen></iframe>
 </div>
