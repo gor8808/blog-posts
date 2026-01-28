@@ -26,6 +26,7 @@ module.exports = {
         'uses-long-cache-ttl': 'off',
         'render-blocking-resources': 'off',
         'render-blocking-insight': 'off',
+        'efficient-animated-content': 'off',
 
         // Categories (minimum scores)
         'categories:seo': ['error', { minScore: 0.9 }],

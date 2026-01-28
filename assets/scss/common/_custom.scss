@@ -61,6 +61,13 @@ a.text-muted {
   }
 }
 
+// Accessibility: Distinguishable links in text blocks
+p a,
+li a:not(.badge):not(.nav-link):not(.btn) {
+  text-decoration: underline !important;
+  text-underline-offset: 2px;
+}
+
 
 // Medium-style typography for blog posts
 .blog-content p {

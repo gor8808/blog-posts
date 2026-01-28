@@ -298,7 +298,7 @@ The random number generation process, however, primarily relies on the chaotic p
 >
 > *Hopefully, we'll never need it. Hopefully, the primary sources of randomness used by our production servers will remain secure, and LavaRand will serve little purpose beyond adding some flair to our office. But if it turns out that we're wrong, and that our randomness sources in production are actually flawed, then LavaRand will be our hedge, making it just a little bit harder to hack Cloudflare.*
 >
-> *Read more [here](https://blog.cloudflare.com/randomness-101-lavarand-in-production).*
+> *Read more about [Cloudflare's implementation of Lavarand in production](https://blog.cloudflare.com/randomness-101-lavarand-in-production).*
 
 {{< img-caption src="lava_lamp_proposal.webp" caption="First proposed and patented LavaLend in 1996" link="https://patents.google.com/patent/US5732138" width="60%" >}}
 
@@ -389,7 +389,7 @@ Telecoms use them to assess network performance in various scenarios, which help
 
 {{< img-caption src="monte_carlo.webp" caption="Monte Carlo Simulation Output of a Stock price" link="https://medium.com/@rmenghani21/computing-option-price-and-greeks-using-monte-carlo-simulation-21a3a24d11ba" >}}
 
-To read more, [check out this article](https://www.investopedia.com/terms/m/montecarlosimulation.asp).
+To learn more, explore the [Investmentopedia guide on Monte Carlo Simulations](https://www.investopedia.com/terms/m/montecarlosimulation.asp).
 
 ## Future of Randomness: Quantum Computing and Quantum Randomness
 
