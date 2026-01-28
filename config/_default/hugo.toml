@@ -1,5 +1,5 @@
 title = "Gor's Tech Blog"
-baseurl = "https://gor-grigoryan.com/"
+baseURL = "https://www.gor-grigoryan.com/"
 disableAliases = true
 disableHugoGeneratorInject = true
 # disableKinds = ["taxonomy", "term"]
