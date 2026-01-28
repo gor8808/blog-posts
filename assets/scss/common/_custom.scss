@@ -13,6 +13,43 @@
   margin-top: 30px !important;
 }
 
+// Accessibility: Improve color contrast ratios
+.text-muted,
+.footer .text-muted,
+.footer.text-muted {
+  color: #4b5563 !important; // Darker for light mode (WCAG AAA)
+}
+
+.badge.bg-light.text-dark {
+  background-color: #f3f4f6 !important;
+  color: #111827 !important; // Deep dark text
+}
+
+[data-bs-theme="dark"] {
+  body {
+    color: #e2e8f0 !important; // Improved body text contrast
+  }
+
+  .text-muted,
+  .footer.text-muted,
+  .footer .text-muted {
+    color: #cbd5e1 !important; // Lighter for dark mode
+  }
+
+  .featured-row {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15); // Slightly more visible
+  }
+}
+
+// Ensure muted links also have enough contrast
+a.text-muted {
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: var(--bs-primary) !important;
+  }
+}
+
 
 // Medium-style typography for blog posts
 .blog-content p {
@@ -80,6 +117,7 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   overflow: hidden;
 }
 
@@ -87,6 +125,7 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   overflow: hidden;
 }
 

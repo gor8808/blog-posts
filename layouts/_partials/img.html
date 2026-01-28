@@ -1,0 +1,79 @@
+{{- /* Override to prevent Hugo panic on large GIF processing and handle missing LQIP */ -}}
+{{- $partialName := "img" -}}
+{{- $alt := or .alt "" -}}
+{{- $class := or .class "" -}}
+{{- $formats := or .formats (slice "webp") -}}
+{{- $decoding := or .decoding site.Params.thulite_images.defaults.decoding -}}
+{{- $fetchPriority := or .fetchpriority site.Params.thulite_images.defaults.fetchpriority -}}
+{{- $loading := or .loading site.Params.thulite_images.defaults.loading -}}
+{{- $process := or .process site.Params.thulite_images.defaults.process -}}
+{{- $lqip := or .lqip site.Params.thulite_images.defaults.lqip -}}
+{{- $src := or .src "" -}}
+{{- $title := or .title "" -}}
+{{- $width := or (int .width) 0 -}}
+{{- $fallbackFormat := "jpeg" -}}
+{{- $stdWidths := site.Params.thulite_images.defaults.widths -}}
+{{- $stdSizes := or .sizes site.Params.thulite_images.defaults.sizes -}}
+
+{{- $r := "" -}}
+{{- $u := urls.Parse $src -}}
+{{- if $u.IsAbs -}}
+{{- $r = resources.GetRemote $u.String -}}
+{{- else -}}
+{{- $r = .page.Resources.Get (strings.TrimPrefix "./" $u.Path) -}}
+{{- if not $r -}}
+{{- $r = resources.Get $u.Path -}}
+{{- end -}}
+{{- end -}}
+
+{{- if not $r -}}
+<img src="{{ $src }}" alt="{{ $alt }}" class="{{ $class }}">
+{{- else -}}
+{{- $isGif := eq $r.MediaType.SubType "gif" -}}
+{{- if $isGif -}}
+<img src="{{ $r.RelPermalink }}" width="{{ $r.Width }}" height="{{ $r.Height }}" alt="{{ $alt }}" class="{{ $class }}"
+    loading="{{ $loading }}" decoding="{{ $decoding }}">
+{{- else -}}
+{{- with $process -}}{{- $r = $r.Process . -}}{{- end -}}
+{{- $l := "" -}}
+{{- if $lqip -}}{{- $l = $r.Resize $lqip -}}{{- end -}}
+
+{{- $widths := slice -}}
+{{- if $width -}}
+{{- $widths = slice $r.Width -}}
+{{- range seq 4 -}}
+{{- $w := mul . $width -}}
+{{- if and (le $w $r.Width) (le $w (math.Max $stdWidths)) -}}
+{{- $widths = $widths | append $w -}}
+{{- end -}}
+{{- end -}}
+{{- else -}}
+{{- $extWidths := $stdWidths | append $r.Width | sort -}}
+{{- range $extWidths -}}
+{{- if (le . $r.Width) -}}
+{{- $widths = $widths | append . -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+{{- $widths = $widths | uniq | sort -}}
+
+{{- $fi := $r.Resize (printf "%dx %s" (math.Min $widths | int) $fallbackFormat) -}}
+
+{{- $im := dict -}}
+{{- range $format := $formats -}}
+{{- $sizesList := slice -}}
+{{- range sort $widths -}}
+{{- $sizesList = $sizesList | append ($r.Resize (printf "%dx %s" . $format)) -}}
+{{- end -}}
+{{- $im = merge $im (dict $format $sizesList) -}}
+{{- end -}}
+
+<img {{ with $l }}srcset="data:{{ .MediaType }};base64,{{ .Content | base64Encode }}" {{ end }} {{- range $formats -}}
+    {{- with index $im . -}}
+    data-srcset="{{ range $k, $_ := . }}{{ if $k }},{{ end }}{{ printf `%s %dw` .RelPermalink .Width }}{{ end }}"
+    data-sizes="{{ if $width }}{{ printf " %dpx" $width }}{{ else }}{{ $stdSizes }}{{ end }}" {{- end -}} {{- end -}}
+    src="{{ $fi.RelPermalink }}" width="{{ $r.Width }}" height="{{ $r.Height }}" decoding="{{ $decoding }}"
+    fetchpriority="{{ $fetchPriority }}" loading="{{ $loading }}" alt="{{ $alt }}" {{ with $title }}title="{{ . }}" {{
+    end }} class="lazyload blur-up {{ $class }}">
+{{- end -}}
+{{- end -}}
