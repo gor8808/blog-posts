@@ -42,7 +42,7 @@
           {{ if .Params.images }}
           {{ $imgName := index .Params.images 0 }}
           <div class="featured-row__media">
-            {{ partial "img.html" (dict "page" . "src" $imgName "class" "featured-row__img" "alt" .Title "width" 600) }}
+            {{ partial "img.html" (dict "page" . "src" $imgName "class" "featured-row__img" "alt" .Title "width" 320) }}
           </div>
           {{ end }}
         </article>

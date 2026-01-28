@@ -2,11 +2,12 @@
 {{- $caption := .Get "caption" -}}
 {{- $link := .Get "link" -}}
 {{- $alt := default $caption (.Get "alt") -}}
-{{- $width := .Get "width" | default "100%" -}}
-{{- $maxWidth := .Get "maxWidth" | default "700px" -}}
+{{- $width := .Get "width" | default "700" -}}
+{{- if strings.HasSuffix $width "%" -}}
+{{- $width = "700" -}}
+{{- end -}}
 <div class="text-center image-container">
-  <img src="{{ $src }}" alt="{{ $alt }}"
-    style="width: {{ $width }}; max-width: {{ $maxWidth }}; height: auto; display: block; margin: 0 auto;" />
+  {{ partial "img.html" (dict "page" .Page "src" $src "alt" $alt "width" $width "class" "img-fluid") }}
   <p class="figure-caption mt-2" style="font-size: 0.85rem;">
     {{- $caption -}}
     {{- with $link -}}
