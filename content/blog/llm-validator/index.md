@@ -17,7 +17,7 @@ seo:
   description: "Use LLMs to validate grammar, tone, and intent in .NET APIs. LLMValidator integrates with Microsoft.Extensions.AI and FluentValidation. Open source library."
   canonical: ""
   noindex: false
-images: ["llm-validator.webp"]
+images: ["cover.webp"]
 ---
 
 Traditional validation has served us well for decades. Email formats, phone numbers, required fields — regex patterns and built-in validators handle these perfectly. But what happens when you need to validate that a business proposal sounds professional, or that user feedback doesn’t contain an inappropriate tone?
