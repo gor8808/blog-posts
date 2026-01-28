@@ -7,16 +7,8 @@
         <h1 class="display-5 mb-3 fw-bold">{{ .Title }}</h1>
         {{ if .Params.images }}
         {{ $imgName := index .Params.images 0 }}
-        {{ $imgSrc := $imgName }}
-        {{ if not (or (hasPrefix $imgName "/") (hasPrefix $imgName "http")) }}
-        {{ with .Resources.GetMatch $imgName }}
-        {{ $imgSrc = .RelPermalink }}
-        {{ else }}
-        {{ $imgSrc = printf "%s%s" $.RelPermalink $imgName }}
-        {{ end }}
-        {{ end }}
-        <img src="{{ $imgSrc }}" class="img-fluid rounded-4 mb-4 w-100" style="max-height: 400px; object-fit: cover;"
-          alt="{{ .Title }}">
+        {{ partial "img.html" (dict "page" . "src" $imgName "class" "img-fluid rounded-4 mb-4 w-100" "alt" .Title
+        "width" 1200 "loading" "eager") }}
         {{ end }}
         {{ with .Params.series }}
         <p class="mb-2">Series:

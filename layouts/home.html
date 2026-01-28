@@ -40,20 +40,9 @@
             <p class="featured-row__summary text-muted mb-0">{{ .Summary | truncate 140 }}</p>
           </div>
           {{ if .Params.images }}
-          {{ $post := . }}
           {{ $imgName := index .Params.images 0 }}
-          {{ $imgSrc := $imgName }}
-          {{/* Check if it's a page resource (just filename) or absolute/external path */}}
-          {{ if not (or (hasPrefix $imgName "/") (hasPrefix $imgName "http")) }}
-          {{ with $post.Resources.GetMatch $imgName }}
-          {{ $imgSrc = .RelPermalink }}
-          {{ else }}
-          {{/* Fallback: construct path from page permalink */}}
-          {{ $imgSrc = printf "%s%s" $post.RelPermalink $imgName }}
-          {{ end }}
-          {{ end }}
           <div class="featured-row__media">
-            <img src="{{ $imgSrc }}" class="featured-row__img" alt="{{ $post.Title }}">
+            {{ partial "img.html" (dict "page" . "src" $imgName "class" "featured-row__img" "alt" .Title "width" 600) }}
           </div>
           {{ end }}
         </article>
