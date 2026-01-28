@@ -1,8 +1,0 @@
-DirectoryPath: "public"
-CheckExternal: true
-CheckImages: true
-CheckInternalHash: true
-ExternalTimeout: 15
-IgnoreURLs:
-  - "https://fonts.gstatic.com"
-  - "https://www.youtube.com/embed/"

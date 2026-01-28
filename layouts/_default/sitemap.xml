@@ -1,8 +1,8 @@
 {{ printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  {{- range where .Site.AllPages "Kind" "ne" "404" }}
-  {{- if and .Permalink (ne .Sitemap.Disable true) }}
+  {{- range .Site.AllPages }}
+  {{- if and .Permalink (hasPrefix .RelPermalink "/blog/") (ne .Sitemap.Disable true) }}
   <url>
     <loc>{{ .Permalink }}</loc>
     {{- if not .Lastmod.IsZero }}
