@@ -39,6 +39,11 @@ jobs:
       - name: Build
         run: npm run build -- --environment production
 
+      - name: Lighthouse CI
+        run: |
+          npm install -g @lhci/cli
+          lhci autorun
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
