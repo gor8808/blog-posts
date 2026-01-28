@@ -22,22 +22,13 @@ copyRight = "Copyright (c) 2024 Gor"
 
 [outputs]
   home = ["HTML", "RSS", "searchIndex", "sitemap"]
-  section = ["HTML", "RSS", "SITEMAP"]
+  section = ["HTML", "RSS"]
 
 [outputFormats.searchIndex]
   mediaType = "application/json"
   baseName = "search-index"
   isPlainText = true
   notAlternative = true
-
-# Add output format for section sitemap.xml
-[outputFormats.SITEMAP]
-  mediaType = "application/xml"
-  baseName = "sitemap"
-  isHTML = false
-  isPlainText = true
-  noUgly = true
-  rel  = "sitemap"
 
 [sitemap]
   changefreq = "monthly"

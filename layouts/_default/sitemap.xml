@@ -1,11 +1,20 @@
 {{ printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  {{- range .Site.Sections }}
-  <sitemap>
-    <loc>{{ .Permalink }}sitemap.xml</loc>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  {{- range where .Site.AllPages "Kind" "ne" "404" }}
+  {{- if and .Permalink (ne .Sitemap.Disable true) }}
+  <url>
+    <loc>{{ .Permalink }}</loc>
     {{- if not .Lastmod.IsZero }}
     <lastmod>{{ safeHTML (.Lastmod.Format "2006-01-02T15:04:05-07:00") }}</lastmod>
     {{- end }}
-  </sitemap>
+    {{- with .Sitemap.ChangeFreq }}
+    <changefreq>{{ . }}</changefreq>
+    {{- end }}
+    {{- if ge .Sitemap.Priority 0.0 }}
+    <priority>{{ .Sitemap.Priority }}</priority>
+    {{- end }}
+  </url>
   {{- end }}
-</sitemapindex>
+  {{- end }}
+</urlset>
