@@ -337,7 +337,7 @@ Randomness plays a critical role in cryptographic systems, forming the backbone 
 
 In cryptographic systems, randomness is used to generate keys, initialize cryptographic algorithms, and for non-repudiation processes like digital signatures and secure communications.
 
-The strength and security of almost all cryptographic techniques depend on the quality of the randomness used. If the randomness is predictable, so too are the cryptographic keys, making the system vulnerable to attacks. Security in software goes beyond encryption — if you're interested in how AI can improve validation at the application layer, check out [AI-Powered Validation in .NET with LLMValidator](/blog/llm-validator/).
+The strength and security of almost all cryptographic techniques depend on the quality of the randomness used. If the randomness is predictable, so too are the cryptographic keys, making the system vulnerable to attacks. Security in software goes beyond encryption — if you're interested in how AI can improve validation at the application layer, check out [AI-Powered Validation in .NET with LLMValidator](/blog/ai-powered-validation-in-.net-introducing-llmvalidator/).
 
 If we encrypt the text "`Hello World`", we will get this text "`oO64D2IzNWKSQnDM8fcZ/w==`". To see the power of encryption, let's also encrypt variations of the text: "HelloWorld" (without a space) and "Hello world" (with lowercase), while also experimenting with a different encryption key.
 
