@@ -36,10 +36,14 @@
       </nav>
       {{ end }}
 
-      <div class="content blog-content mb-5 fs-5">
+      <div class="content blog-content mb-5 fs-5" data-code-style="terminal">
         {{ .Content }}
       </div>
     </div>
   </div>
+
+  {{- /* Include schema markup for all blog articles */ -}}
+  {{ partial "schema/article.html" . }}
+  {{ partial "schema/faq.html" . }}
 </article>
 {{ end }}

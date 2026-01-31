@@ -17,6 +17,17 @@ seo:
   description: "Learn how to manage unique identifiers at scale in 2026. Complete guide to UUIDs, GUIDs, and Snowflake IDs for distributed systems and databases."
   canonical: "https://gor-grigoryan.com/blog/unique-identifiers-at-scale-uuid-guid-snowflake-guide/"
   noindex: false
+faqs:
+  - question: "What is the difference between UUID and GUID?"
+    answer: "UUID (Universally Unique Identifier) and GUID (Globally Unique Identifier) are essentially the same thing - both are 128-bit identifiers designed to be globally unique. The term GUID is primarily used by Microsoft and Windows platforms, while UUID is the more general industry term defined by RFC 4122. They share the same structure and format, just different naming conventions based on the technology ecosystem."
+  - question: "When should I use Snowflake IDs vs UUIDs?"
+    answer: "Use Snowflake IDs when you need time-ordered, sortable identifiers in distributed systems with high write throughput (like Twitter handling millions of tweets). Snowflake IDs are 64-bit integers that encode timestamp, datacenter, and machine information, making them ideal for systems requiring chronological ordering and efficient indexing. Use UUIDs (particularly v4 or v7) when you need globally unique identifiers that can be generated independently across multiple systems without coordination. UUID v7 offers similar benefits to Snowflake IDs with timestamp-based ordering, while UUID v4 prioritizes pure randomness over sequential ordering."
+  - question: "Are UUIDs truly unique?"
+    answer: "While theoretically not 100% guaranteed, UUIDs are unique enough for practical purposes. UUID v4 uses 122 bits of randomness, providing approximately 5.3×10³⁶ possible combinations. The probability of generating duplicate UUIDs is so astronomically low that it's effectively zero in real-world applications. To put this in perspective, you could generate one billion UUIDs per second for 85 years before reaching a 50% probability of a single collision."
+  - question: "Why are auto-increment IDs problematic in distributed systems?"
+    answer: "Auto-increment IDs face several challenges in distributed environments: (1) they require coordination between servers to avoid duplicates, creating performance bottlenecks, (2) they introduce a single point of failure if the central ID generator goes down, (3) they're predictable from a security perspective, and (4) maintaining global sequences across multiple data centers significantly impacts reliability and performance. This is why companies like Twitter, Discord, and Instagram developed alternatives like Snowflake IDs."
+  - question: "Which UUID version should I use for my application?"
+    answer: "UUID v4 is the safest default choice - it's purely random, widely supported, and works everywhere without coordination. Use UUID v7 if you need time-ordered IDs for better database performance and range queries while maintaining global uniqueness. Use UUID v5 when you need deterministic IDs - generating the same ID from the same input across different systems. Avoid UUID v1 in new applications as it exposes MAC addresses (privacy concern) and has been largely superseded by v7 for time-based use cases."
 ---
 
 ## Unique Identifiers at Scale: A Complete Guide

@@ -1,0 +1,37 @@
+{{- /* Schema.org FAQ structured data - auto-detects FAQ sections */ -}}
+{{- /* You can manually specify FAQs in front matter or let it auto-detect from content */ -}}
+
+{{- if .Params.faqs -}}
+{{- /* Manual FAQ definition in front matter */ -}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {{- range $index, $faq := .Params.faqs -}}
+    {{- if $index -}},{{- end -}}
+    {
+      "@type": "Question",
+      "name": {{ $faq.question | jsonify }},
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": {{ $faq.answer | jsonify }}
+      }
+    }
+    {{- end -}}
+  ]
+}
+</script>
+{{- else if in .RawContent "## Frequently Asked Questions" -}}
+{{- /* Auto-detect FAQ section in content */ -}}
+{{- /* Note: For full automation, FAQs should be defined in front matter */ -}}
+{{- /* This is a placeholder that indicates FAQ section exists */ -}}
+<!-- FAQ Schema: Add 'faqs' to front matter for automatic schema generation -->
+<!-- Example:
+faqs:
+  - question: "What is the difference between UUID and GUID?"
+    answer: "UUID and GUID are essentially the same thing..."
+  - question: "When should I use Snowflake IDs vs UUIDs?"
+    answer: "Use Snowflake IDs when you need time-ordered..."
+-->
+{{- end -}}

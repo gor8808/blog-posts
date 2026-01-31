@@ -151,7 +151,7 @@ li a:not(.badge):not(.nav-link):not(.btn) {
 
 // Medium-style typography for blog posts
 .blog-content p {
-  margin-top: 2.14em;
+  margin-top: 2.7em;
   margin-bottom: -0.46em;
   line-height: 28px;
   font-size: 18px;
@@ -164,7 +164,7 @@ li a:not(.badge):not(.nav-link):not(.btn) {
 .blog-content h4+p,
 .blog-content h5+p,
 .blog-content h6+p {
-  margin-top: 0.94em;
+  margin-top: 1.3em;
 }
 
 .blog-content h2,
@@ -183,6 +183,62 @@ li a:not(.badge):not(.nav-link):not(.btn) {
 .blog-content>h5:first-child,
 .blog-content>h6:first-child {
   margin-top: 0.94em;
+}
+
+.blog-content pre {
+  position: relative;
+  margin: 1.5rem 0;
+  padding: 1.25rem 1.5rem;
+  border-radius: 14px;
+  overflow: auto;
+}
+
+.blog-content .highlight {
+  margin: 1.5rem 0;
+}
+
+// Terminal style with header bar + dots
+.blog-content[data-code-style="terminal"] pre {
+  padding-top: 2.4rem;
+  background: linear-gradient(145deg, rgba(17, 24, 39, 0.9), rgba(2, 6, 23, 0.95));
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 16px 40px rgba(2, 6, 23, 0.55);
+}
+
+.blog-content[data-code-style="terminal"] pre::before {
+  content: "";
+  position: absolute;
+  top: 0.65rem;
+  left: 0.9rem;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ef4444;
+  box-shadow: 14px 0 0 #f59e0b, 28px 0 0 #22c55e;
+}
+
+.blog-content[data-code-style="terminal"] pre::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2.1rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+  background: rgba(2, 6, 23, 0.55);
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+}
+
+[data-bs-theme="light"] .blog-content[data-code-style="terminal"] pre {
+  background: rgba(248, 250, 252, 0.98);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+}
+
+[data-bs-theme="light"] .blog-content[data-code-style="terminal"] pre::after {
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(226, 232, 240, 0.9);
 }
 
 // Featured posts list layout
