@@ -18,10 +18,14 @@
           {{ end }}
         </p>
         {{ end }}
-        <div class="d-flex flex-wrap gap-2">
-          {{ range .GetTerms "tags" }}
-          <a class="badge bg-light text-dark text-decoration-none" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
-          {{ end }}
+        <div class="tags-scroll-wrap">
+          <span class="tags-fade tags-fade--left" aria-hidden="true"></span>
+          <span class="tags-fade tags-fade--right" aria-hidden="true"></span>
+          <div class="d-flex flex-nowrap gap-2 tags-scroll">
+            {{ range .GetTerms "tags" }}
+            <a class="badge bg-light text-dark text-decoration-none" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+            {{ end }}
+          </div>
         </div>
       </header>
 

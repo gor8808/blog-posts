@@ -36,6 +36,86 @@
   color: #111827 !important; // Deep dark text
 }
 
+.tags-scroll-wrap {
+  position: relative;
+  --tags-fade-color: var(--bs-body-bg, #fff);
+  --tags-scrollbar-thumb: rgba(100, 116, 139, 0.6);
+}
+
+.tags-scroll-wrap::before,
+.tags-scroll-wrap::after {
+  content: none !important;
+}
+
+.tags-fade {
+  position: absolute;
+  top: 0;
+  width: 24px;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  display: block;
+  will-change: opacity;
+}
+
+.tags-fade--right {
+  right: 0;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0), var(--tags-fade-color));
+}
+
+.tags-fade--left {
+  left: 0;
+  background: linear-gradient(270deg, rgba(0, 0, 0, 0), var(--tags-fade-color));
+}
+
+.tags-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 0.25rem;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+  scrollbar-color: var(--tags-scrollbar-thumb) transparent;
+
+  >a {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+}
+
+.tags-scroll-wrap[data-scrolled="true"].show-left .tags-fade--left {
+  opacity: 1;
+  visibility: visible;
+}
+
+.tags-scroll-wrap[data-overflow="true"].show-right .tags-fade--right {
+  opacity: 1;
+  visibility: visible;
+}
+
+.tags-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.tags-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tags-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--tags-scrollbar-thumb);
+  border-radius: 999px;
+}
+
+[data-bs-theme="light"] {
+  .tags-scroll-wrap {
+    --tags-fade-color: #fff;
+    --tags-scrollbar-thumb: rgba(100, 116, 139, 0.45);
+  }
+}
+
 [data-bs-theme="dark"] {
   body {
     color: #e2e8f0 !important; // Improved body text contrast
@@ -94,6 +174,15 @@ li a:not(.badge):not(.nav-link):not(.btn) {
 .blog-content h6 {
   margin-top: 1.95em;
   margin-bottom: -0.28em;
+}
+
+// Reduce top gap for the very first heading in the article body
+.blog-content>h2:first-child,
+.blog-content>h3:first-child,
+.blog-content>h4:first-child,
+.blog-content>h5:first-child,
+.blog-content>h6:first-child {
+  margin-top: 0.94em;
 }
 
 // Featured posts list layout
@@ -179,47 +268,63 @@ li a:not(.badge):not(.nav-link):not(.btn) {
   }
 }
 
-// Table of Contents styling - using ID selector to override theme defaults
+// Table of Contents styling - ordered list with hierarchical numbering
 #TableOfContents {
-  ul {
+  ol {
     list-style: none;
     padding-left: 0;
     margin: 0;
+    counter-reset: toc-item;
+  }
 
-    li {
-      margin-bottom: 0.5rem;
+  li {
+    counter-increment: toc-item;
+    margin-bottom: 0.5rem;
 
-      a {
-        color: inherit;
-        text-decoration: none;
-
-        &:hover {
-          text-decoration: underline;
-        }
-      }
+    &::before {
+      content: counters(toc-item, ".") " ";
+      font-variant-numeric: tabular-nums;
+      margin-right: 0.35rem;
     }
 
-    // Nested lists - add indentation
-    ul {
-      padding-left: 1.25rem;
-      margin-top: 0.5rem;
-      margin-left: 0.5rem;
-      border-left: 2px solid var(--bs-primary);
+    a {
+      color: inherit;
+      text-decoration: none;
 
-      li a {
-        font-size: 0.95em;
-        opacity: 0.85;
-      }
-
-      // Deeper nesting
-      ul {
-        border-left-color: rgba(var(--bs-primary-rgb), 0.5);
-
-        li a {
-          font-size: 0.9em;
-          opacity: 0.75;
-        }
+      &:hover {
+        text-decoration: underline;
       }
     }
   }
+
+  // Nested lists - add indentation
+  ol ol {
+    padding-left: 1.25rem;
+    margin-top: 0.5rem;
+    margin-left: 0.5rem;
+    border-left: 2px solid var(--bs-primary);
+
+    li a {
+      font-size: 0.95em;
+      opacity: 0.85;
+    }
+
+    // Deeper nesting
+    ol {
+      border-left-color: rgba(var(--bs-primary-rgb), 0.5);
+
+      li a {
+        font-size: 0.9em;
+        opacity: 0.75;
+      }
+    }
+  }
+}
+
+.toc h2 {
+  margin-top: 0.5rem !important;
+}
+
+.toc {
+  margin-top: 1.5rem;
 }
