@@ -149,7 +149,14 @@ li a:not(.badge):not(.nav-link):not(.btn) {
 }
 
 
-// Medium-style typography for blog posts
+.blog-content ol li {
+  margin-top: 1em;
+}
+
+.blog-content ul li {
+  margin-top: 1em;
+}
+
 .blog-content p {
   margin-top: 2.7em;
   margin-bottom: -0.46em;
@@ -199,7 +206,7 @@ li a:not(.badge):not(.nav-link):not(.btn) {
 
 // Terminal style with header bar + dots
 .blog-content[data-code-style="terminal"] pre {
-  padding-top: 2.4rem;
+  padding-top: 2.8rem;
   background: linear-gradient(145deg, rgba(17, 24, 39, 0.9), rgba(2, 6, 23, 0.95));
   border: 1px solid rgba(148, 163, 184, 0.2);
   box-shadow: 0 16px 40px rgba(2, 6, 23, 0.55);
