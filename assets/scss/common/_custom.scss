@@ -36,17 +36,6 @@
   color: #111827 !important; // Deep dark text
 }
 
-.popular-tags {
-  align-content: flex-start;
-  flex-wrap: wrap;
-}
-
-.popular-tags a {
-  display: inline-flex;
-  flex: 0 0 auto;
-  white-space: nowrap;
-}
-
 .tags-scroll-wrap {
   position: relative;
   --tags-fade-color: var(--bs-body-bg, #fff);
