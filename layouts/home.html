@@ -6,9 +6,9 @@
       <p class="lead fs-4 text-muted mb-5">{{ .Params.lead | safeHTML }}</p>
       <div class="mb-5 fs-5">{{ .Content }}</div>
       <div class="d-flex flex-column flex-md-row justify-content-center gap-4">
-        <a class="btn btn-primary btn-cta rounded-pill btn-lg px-5 shadow" href="{{ "blog/" | relURL }}"
+        <a class="btn btn-primary btn-cta rounded-pill btn-lg px-5 shadow" href="{{ " blog/" | relURL }}"
           role="button">Browse posts</a>
-        <a class="btn btn-outline-primary rounded-pill btn-lg px-5" href="{{ "tags/" | relURL }}" role="button">Explore
+        <a class="btn btn-outline-primary rounded-pill btn-lg px-5" href="{{ " tags/" | relURL }}" role="button">Explore
           tags</a>
       </div>
     </div>
@@ -26,7 +26,7 @@
     <div class="col-lg-11">
       <div class="d-flex align-items-center justify-content-between mb-4 border-bottom pb-3">
         <h2 class="h3 fw-bold mb-0">Featured posts</h2>
-        <a class="text-decoration-none fw-bold" href="{{ "blog/" | relURL }}">View all posts →</a>
+        <a class="text-decoration-none fw-bold" href="{{ " blog/" | relURL }}">View all posts →</a>
       </div>
       {{ if gt (len $featured) 0 }}
       <div class="featured-list">
@@ -58,8 +58,18 @@
 <section class="section section-md container-fluid px-lg-5">
   <div class="row justify-content-center">
     <div class="col-lg-11">
-      <div class="row g-5">
-        <div class="col-lg-8">
+      <div class="row">
+        <div class="col-18">
+          <h2 class="h4 fw-bold mb-4 text-center text-lg-start">Popular tags</h2>
+          <div class="d-flex flex-wrap gap-2 justify-content-center justify-content-lg-start popular-tags">
+            {{ range first 15 (site.Taxonomies.tags.ByCount) }}
+            <a class="badge bg-light text-dark fs-6 p-2 px-3 text-decoration-none" href="{{ .Page.RelPermalink }}">{{
+              .Page.Title }}</a>
+            {{ end }}
+          </div>
+        </div>
+
+        <div class="col-18">
           <h2 class="h3 fw-bold mb-4">Latest posts</h2>
           {{ $latest := first 6 ($posts.ByDate.Reverse) }}
           {{ if gt (len $latest) 0 }}
@@ -81,16 +91,6 @@
           {{ else }}
           <p class="text-muted">No posts published yet.</p>
           {{ end }}
-        </div>
-
-        <div class="col-lg-4">
-          <h2 class="h4 fw-bold mb-4 text-center text-lg-start">Popular tags</h2>
-          <div class="d-flex flex-wrap gap-2 justify-content-center justify-content-lg-start">
-            {{ range $name, $taxonomy := site.Taxonomies.tags }}
-            <a class="badge bg-light text-dark fs-6 p-2 px-3 text-decoration-none"
-              href="{{ $taxonomy.Page.RelPermalink }}">{{ $taxonomy.Page.Title }}</a>
-            {{ end }}
-          </div>
         </div>
       </div>
     </div>
