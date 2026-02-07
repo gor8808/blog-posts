@@ -254,11 +254,7 @@ dotnet add package LLMValidation.FluentValidation
 dotnet add package Microsoft.Extensions.AI.OpenAI
 ```
 
-Complete documentation and examples:
-
-<br />
-
-{{< github repo="gor8808/LLMValidator" >}}
+Complete documentation and examples can be found on the [GitHub repository](https://github.com/gor8808/LLMValidator).
 
 ## Conclusion
 
