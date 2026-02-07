@@ -21,8 +21,6 @@ seo:
   noindex: false
 ---
 
-{{< img-caption src="hero-unsplash.webp" caption="Photo by Jan-Niclas Aberle on Unsplash." >}}
-
 ## What are interactive EF Core migrations?
 
 Interactive EF Core migrations are migrations that run C# logic during deployment instead of relying only on static SQL scripts. This pattern lets you reuse tested application helpers, handle edge cases, and keep schema updates plus data changes in a single migration flow.
