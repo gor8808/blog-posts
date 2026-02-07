@@ -1,5 +1,10 @@
 // Put your custom SCSS code here
 
+// Prevent horizontal page scroll on mobile from wide code blocks
+html, body {
+  overflow-x: hidden;
+}
+
 // Auto-hide navbar on scroll
 .navbar {
   transition: transform 0.3s ease;
@@ -192,12 +197,17 @@ li a:not(.badge):not(.nav-link):not(.btn) {
   margin-top: 0.94em;
 }
 
+.blog-content {
+  overflow-x: hidden;
+}
+
 .blog-content pre {
   position: relative;
   margin: 1.5rem 0;
   padding: 1.25rem 1.5rem;
   border-radius: 14px;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .blog-content .highlight {
@@ -206,9 +216,14 @@ li a:not(.badge):not(.nav-link):not(.btn) {
 
 // Terminal style with header bar + dots
 // Uses the .header figcaption (outside scrollable pre) so it stays fixed on horizontal scroll
+.blog-content[data-code-style="terminal"] .expressive-code {
+  max-width: 100%;
+}
+
 .blog-content[data-code-style="terminal"] .expressive-code .frame {
   --button-spacing: calc(2.1rem + 0.4rem);
   border-radius: 14px;
+  overflow: hidden;
 }
 
 .blog-content[data-code-style="terminal"] .expressive-code .frame .header {
