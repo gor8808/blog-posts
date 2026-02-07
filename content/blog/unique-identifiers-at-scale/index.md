@@ -1,5 +1,6 @@
 ---
 title: "Unique Identifiers at Scale: UUID, GUID & Snowflake Guide"
+giscus_id: "unique-identifiers-at-scale"
 date: 2025-07-13T00:00:00Z
 description: "A comprehensive guide to unique identifier systems in 2026, from traditional auto-increment IDs to modern solutions like UUIDs and Snowflake IDs used by tech giants managing billions of users."
 summary: "Explore the evolution of unique identifiers from simple surnames to sophisticated distributed ID generation systems. Learn how tech companies like Meta, Twitter, and Telegram manage trillions of data rows with UUIDs, Snowflake IDs, and other modern solutions."

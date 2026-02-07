@@ -1,5 +1,6 @@
 ---
 title: "AI-Powered Validation in .NET: Introducing LLMValidator"
+giscus_id: "llm-validator"
 description: "Validate grammar, tone, and intent beyond regex. LLMValidator brings semantic validation to .NET 8+ with Microsoft.Extensions.AI and FluentValidation support. Open source."
 lead: "Beyond Regex: Solving Semantic Validation in .NET APIs with Large Language Models."
 summary: "LLMValidator is a .NET library that brings Large Language Models to your validation pipeline. Validate grammar, tone, and semantic meaning with Microsoft.Extensions.AI integration."

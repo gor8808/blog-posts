@@ -1,5 +1,6 @@
 ---
 title: "Decoding Chaos: How True Randomness Works in Software Engineering"
+giscus_id: "decoding-chaos-true-randomness"
 description: "Explore the fascinating world of randomness in software engineering - from pseudo-random generators to quantum computing, cryptography, and chaos engineering."
 lead: "Understanding Randomness: From Coin Tosses to Quantum Computing"
 summary: "A deep dive into how randomness works in software engineering, covering pseudo-random number generators, true random number generation using hardware entropy sources, cryptographic applications, and the future of quantum randomness."

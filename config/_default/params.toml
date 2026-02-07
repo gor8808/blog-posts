@@ -146,3 +146,16 @@ mainSections = ["blog"]
     newsArticle = [] # NewsArticle sections
     blogPosting = ["blog"] # BlogPosting sections
     product = [] # Product sections
+
+# Giscus (GitHub Discussions comments)
+[giscus]
+  repo = "gor8808/blog-posts"
+  repoId = "R_kgDOQ8GwNA"
+  category = "Q&A"
+  categoryId = "DIC_kwDOQ8GwNM4C2A_r"
+  reactionsEnabled = "1"
+  emitMetadata = "0"
+  inputPosition = "top"
+  theme = "preferred_color_scheme"
+  lang = "en"
+  loading = "lazy"
