@@ -1,0 +1,19 @@
+{{ define "main" }}
+<section class="section container-fluid mt-n3 pb-5">
+  <div class="row justify-content-center">
+    <div class="aca-linktree">
+      <h1 class="text-center fw-bold mb-5">{{ .Title }}</h1>
+      <div class="d-grid gap-3">
+        {{ range .Params.links }}
+        <a href="{{ .url }}" target="_blank" rel="noopener noreferrer" class="aca-link-card d-flex align-items-center text-decoration-none">
+          <span class="aca-link-card__icon">
+            {{ partial "inline-svg" (dict "src" .icon "class" "aca-link-icon") }}
+          </span>
+          <span class="aca-link-card__name">{{ .name }}</span>
+        </a>
+        {{ end }}
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}
