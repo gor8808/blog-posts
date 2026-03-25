@@ -510,6 +510,7 @@ li a:not(.badge):not(.nav-link):not(.btn) {
 .toc {
   margin-top: 1.5rem;
 }
+
 // ACA Linktree page
 .aca-linktree {
   max-width: 600px;
@@ -551,6 +552,7 @@ li a:not(.badge):not(.nav-link):not(.btn) {
   font-weight: 500;
 }
 
+// Dark mode overrides (see also [data-bs-theme="dark"] near line 124 for site-wide dark styles)
 [data-bs-theme="dark"] {
   .aca-link-card:hover {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
