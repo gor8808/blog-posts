@@ -23,9 +23,11 @@ Top to bottom:
 - The canvas is divided into a grid of small square cells
 - Each cell is either "on" (filled) or "off" (empty/transparent)
 - "On" cells form the letter shapes of "NOT" (line 1) and "FOUND" (line 2)
-- Letters are defined as hardcoded pixel font bitmaps (5x7 or similar compact grid per character)
+- Letters are defined as hardcoded pixel font bitmaps: 5 columns x 7 rows per character
 - Spacing between characters: 1 cell gap
 - Spacing between lines: 2 cell gap
+- Total grid dimensions: "FOUND" (5 letters) drives the width = 5*5 + 4*1 = 29 columns; height = 7 + 2 + 7 = 16 rows
+- "NOT" (17 columns) is centered horizontally within the 29-column grid
 
 ### Colors
 
@@ -40,9 +42,11 @@ Re-read CSS variables on `data-bs-theme` attribute changes (MutationObserver on 
 
 - Canvas container is full-width within the page content column
 - Cell size is computed dynamically: `container width / total grid columns`
-- Minimum cell size clamped so text remains readable on small screens
+- Minimum cell size: 6px (below this the dots are too small to read)
+- If container is too narrow for min cell size, allow the grid to fill available width at reduced size (no overflow)
 - Canvas height derives from cell size and total grid rows
-- On resize, recalculate and redraw
+- Canvas uses `devicePixelRatio` scaling: internal resolution = CSS size * DPR, context scaled by DPR for crisp rendering on Retina displays
+- On resize, recalculate and redraw (debounce: 200ms)
 
 ## Animation
 
@@ -50,14 +54,14 @@ Re-read CSS variables on `data-bs-theme` attribute changes (MutationObserver on 
 
 1. Compute list of all "on" cell positions
 2. Shuffle the list randomly
-3. Reveal cells in batches per animation frame over ~1 second
+3. Reveal cells in batches per animation frame: batch size = `ceil(totalCells / 60)` to complete in ~1 second at 60fps
 4. After all cells revealed, transition to idle animation
 
 ### Idle Pulse (continuous)
 
 - Each "on" cell has a random phase offset (assigned once at init)
 - Per frame, each cell's opacity = `0.5 + 0.5 * sin(time * speed + phase)`
-- Speed tuned for subtle, slow breathing effect (~0.5-1 Hz)
+- Speed: ~0.5 Hz (one full pulse cycle every 2 seconds)
 - Uses `requestAnimationFrame` for smooth rendering
 
 ### Performance
@@ -77,7 +81,7 @@ assets/scss/common/_custom.scss  # Canvas container styles (append)
 ### layouts/404.html
 
 - Extends the base layout (`{{ define "main" }}`)
-- Contains: title, subtitle, canvas element with `id="not-found-grid"` and `aria-label="NOT FOUND"`, homepage link
+- Contains: title, subtitle, canvas element with `id="not-found-grid"` and `aria-hidden="true"`, homepage link
 - Loads `404-grid.js` via Hugo's asset pipeline (`resources.Get | js.Build | minify`)
 
 ### assets/js/404-grid.js
@@ -87,7 +91,7 @@ assets/scss/common/_custom.scss  # Canvas container styles (append)
 - Character dimensions (e.g., 5 wide x 7 tall)
 - Inter-character gap: 1 column
 - Inter-line gap: 2 rows
-- Pulse speed: ~0.002 (tuned for subtle effect)
+- Pulse speed: `2 * PI / 2000` (~0.003, producing ~0.5 Hz cycle — one full breath every 2 seconds)
 - Entrance duration: ~1000ms
 
 **Initialization:**
@@ -127,8 +131,9 @@ assets/scss/common/_custom.scss  # Canvas container styles (append)
 
 .not-found-grid canvas {
   width: 100%;
-  height: auto;
   display: block;
+  // Height set by JS; aspect-ratio fallback approximates 29:16 grid
+  aspect-ratio: 29 / 16;
 }
 ```
 
