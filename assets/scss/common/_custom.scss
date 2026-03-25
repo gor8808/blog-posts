@@ -510,3 +510,14 @@ li a:not(.badge):not(.nav-link):not(.btn) {
 .toc {
   margin-top: 1.5rem;
 }
+
+// 404 letter grid
+.not-found-grid {
+  width: 100%;
+  margin: 2rem auto;
+}
+
+.not-found-grid canvas {
+  width: 100%;
+  display: block;
+}

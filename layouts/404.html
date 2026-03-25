@@ -1,0 +1,16 @@
+{{ define "main" }}
+<div class="container-fluid px-0">
+  <article>
+    <h1 class="text-center mt-5">{{ i18n "404_title" }}</h1>
+    <p class="text-center text-muted mb-4">{{ i18n "404_text" }}</p>
+    <div class="not-found-grid">
+      <canvas id="not-found-grid" aria-hidden="true"></canvas>
+    </div>
+    <p class="text-center mt-4">
+      <a href="{{ "/" | relURL }}" class="btn btn-primary rounded-pill px-4">Back to homepage</a>
+    </p>
+  </article>
+</div>
+{{ $js := resources.Get "js/404-grid.js" | js.Build | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" defer></script>
+{{ end }}
