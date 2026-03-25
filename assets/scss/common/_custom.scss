@@ -510,3 +510,49 @@ li a:not(.badge):not(.nav-link):not(.btn) {
 .toc {
   margin-top: 1.5rem;
 }
+// ACA Linktree page
+.aca-linktree {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.aca-link-card {
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--bs-border-color);
+  border-radius: 12px;
+  background: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  min-height: 56px;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+    color: var(--bs-body-color);
+  }
+}
+
+.aca-link-card__icon {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+  flex-shrink: 0;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    stroke: var(--bs-body-color);
+  }
+}
+
+.aca-link-card__name {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+[data-bs-theme="dark"] {
+  .aca-link-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  }
+}
