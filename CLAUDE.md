@@ -43,6 +43,12 @@ Posts use the archetype at `archetypes/blog.md` with front matter including titl
 
 Automated via GitHub Actions (`.github/workflows/gh-pages.yml`). Push to main branch triggers build and deploy to GitHub Pages. The workflow auto-resolves base URL for user/org pages vs project pages.
 
+To manually trigger a deploy:
+
+```bash
+gh workflow run gh-pages.yml --repo gor8808/blog-posts
+```
+
 ## Tools
 
 - **QR Codes**: Use `qrrs` for QR code generation. Supports `--terminal` flag to display in terminal without saving to a file (e.g., `qrrs -t "https://example.com"`).
