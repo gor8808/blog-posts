@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="{{ if eq site.Params.doks.colorMode "dark" }}dark{{ else if eq site.Params.doks.colorMode "light" }}light{{ else }}dark{{ end }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>404 — Page Not Found</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; }
+    html[data-bs-theme="dark"] body { background: #1a1a2e; }
+    html[data-bs-theme="light"] body { background: #f8f9fa; }
+    canvas { display: block; width: 100%; height: 100%; }
+  </style>
+</head>
+<body>
+  <canvas id="grid"></canvas>
+  <script>
+    // Animation code will go here in subsequent tasks
+    console.log('404 canvas ready');
+  </script>
+</body>
+</html>
