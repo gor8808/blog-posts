@@ -132,9 +132,80 @@
     }
   }
 
+  // --- Mouse ---
+  let mouseX = -9999;
+  let mouseY = -9999;
+  const REPEL_RADIUS = 90;
+  const REPEL_STRENGTH = 6;
+  const SPRING = 0.04;
+  const DAMPING = 0.85;
+
+  canvas.addEventListener('mousemove', function(e) {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  canvas.addEventListener('mouseleave', function() {
+    mouseX = -9999;
+    mouseY = -9999;
+  });
+
+  // --- Touch ---
+  canvas.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+    const touch = e.touches[0];
+    mouseX = touch.clientX;
+    mouseY = touch.clientY;
+  }, { passive: false });
+
+  canvas.addEventListener('touchend', function() {
+    mouseX = -9999;
+    mouseY = -9999;
+  });
+
+  // --- Physics ---
+  function update() {
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+
+      // Repel from mouse
+      const dx = p.x - mouseX;
+      const dy = p.y - mouseY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist < REPEL_RADIUS && dist > 0) {
+        const force = (REPEL_RADIUS - dist) / REPEL_RADIUS * REPEL_STRENGTH;
+        const angle = Math.atan2(dy, dx);
+        p.vx += Math.cos(angle) * force;
+        p.vy += Math.sin(angle) * force;
+      }
+
+      // Spring back to home
+      const springDx = p.homeX - p.x;
+      const springDy = p.homeY - p.y;
+      p.vx += springDx * SPRING;
+      p.vy += springDy * SPRING;
+
+      // Damping
+      p.vx *= DAMPING;
+      p.vy *= DAMPING;
+
+      // Update position
+      p.x += p.vx;
+      p.y += p.vy;
+    }
+  }
+
+  // --- Animation Loop ---
+  function animate() {
+    update();
+    draw();
+    requestAnimationFrame(animate);
+  }
+
   // --- Init ---
   resize();
-  draw();
+  animate();
 })();
   </script>
 </body>
