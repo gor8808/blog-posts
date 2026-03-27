@@ -203,6 +203,16 @@
     requestAnimationFrame(animate);
   }
 
+  // --- Theme Observer ---
+  new MutationObserver(function(mutations) {
+    for (const m of mutations) {
+      if (m.attributeName === 'data-bs-theme') {
+        textMask = buildTextMask();
+        createParticles();
+      }
+    }
+  }).observe(document.documentElement, { attributes: true });
+
   // --- Init ---
   resize();
   animate();
