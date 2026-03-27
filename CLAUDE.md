@@ -51,6 +51,16 @@ Automated via GitHub Actions (`.github/workflows/gh-pages.yml`). Push to main br
 
 - **404 page**: `layouts/404.html` — animated typographic grid canvas. See [docs/animation.md](docs/animation.md) for the full design spec, architecture decisions, key parameters, and how to modify it.
 
+## Testing with Chrome DevTools
+
+Use Chrome DevTools MCP to run and visually test the site:
+
+1. Start the dev server in background: `npm run dev`
+2. Navigate to the page: `navigate_page` to `http://localhost:1313/` (or any path)
+3. Take screenshots: `take_screenshot` to verify visual output
+4. Test interactions: `evaluate_script` to simulate mouse events, toggle themes (`document.documentElement.setAttribute('data-bs-theme', 'light')`)
+5. Test viewports: `resize_page` for mobile (500x844) and desktop (1440x900)
+
 ## Requirements
 
 - **Hugo Extended**: v0.136.5+ (standard Hugo won't work)

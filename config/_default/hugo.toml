@@ -36,7 +36,7 @@ copyRight = "Copyright (c) 2024 Gor"
   priority = 0.5
 
 [caches]
-  [caches.getjson]
+  [caches.getresource]
     dir = ":cacheDir/:project"
     maxAge = -1 # "30m"
 
