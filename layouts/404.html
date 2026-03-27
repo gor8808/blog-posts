@@ -15,8 +15,127 @@
 <body>
   <canvas id="grid"></canvas>
   <script>
-    // Animation code will go here in subsequent tasks
-    console.log('404 canvas ready');
+(function() {
+  'use strict';
+
+  const canvas = document.getElementById('grid');
+  const ctx = canvas.getContext('2d');
+  const CHARS = ['.', '*', '#', '/', '\\', '+', '-', '~', ':', ';'];
+  const BASE_SPACING = 14;
+  const FONT_SIZE = 12;
+  const TEXT = '404';
+
+  let particles = [];
+  let width, height, cols, rows, spacing;
+  let textMask = null;
+
+  // --- Theme ---
+  function getTheme() {
+    return document.documentElement.getAttribute('data-bs-theme') === 'light' ? 'light' : 'dark';
+  }
+
+  function getColors() {
+    const theme = getTheme();
+    return {
+      bg: theme === 'dark' ? '#1a1a2e' : '#f8f9fa',
+      insideChar: theme === 'dark' ? 'rgba(220,220,255,0.9)' : 'rgba(40,40,60,0.85)',
+      outsideChar: theme === 'dark' ? 'rgba(150,150,180,0.15)' : 'rgba(120,120,140,0.12)',
+    };
+  }
+
+  // --- Text Mask ---
+  function buildTextMask() {
+    const offscreen = document.createElement('canvas');
+    offscreen.width = width;
+    offscreen.height = height;
+    const offCtx = offscreen.getContext('2d');
+
+    const fontSize = Math.min(height * 0.55, width * 0.35);
+    offCtx.font = '900 ' + fontSize + 'px "Arial Black", "Helvetica Neue", Arial, sans-serif';
+    offCtx.textAlign = 'center';
+    offCtx.textBaseline = 'middle';
+    offCtx.fillStyle = '#fff';
+    offCtx.fillText(TEXT, width / 2, height / 2);
+
+    return offCtx.getImageData(0, 0, width, height);
+  }
+
+  function isInsideText(x, y) {
+    if (!textMask) return false;
+    const px = Math.round(x);
+    const py = Math.round(y);
+    if (px < 0 || px >= width || py < 0 || py >= height) return false;
+    const i = (py * width + px) * 4;
+    return textMask.data[i + 3] > 128;
+  }
+
+  // --- Particles ---
+  function createParticles() {
+    particles = [];
+    spacing = window.innerWidth < 768 ? BASE_SPACING + 4 : BASE_SPACING;
+    cols = Math.ceil(width / spacing);
+    rows = Math.ceil(height / spacing);
+
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        const homeX = col * spacing + spacing / 2;
+        const homeY = row * spacing + spacing / 2;
+        const inside = isInsideText(homeX, homeY);
+        particles.push({
+          homeX: homeX,
+          homeY: homeY,
+          x: homeX,
+          y: homeY,
+          vx: 0,
+          vy: 0,
+          char: CHARS[Math.floor(Math.random() * CHARS.length)],
+          inside: inside,
+        });
+      }
+    }
+  }
+
+  // --- Resize ---
+  function resize() {
+    const dpr = window.devicePixelRatio || 1;
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    textMask = buildTextMask();
+    createParticles();
+  }
+
+  let resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(resize, 150);
+  });
+
+  // --- Draw ---
+  function draw() {
+    const colors = getColors();
+    ctx.fillStyle = colors.bg;
+    ctx.fillRect(0, 0, width, height);
+    ctx.font = FONT_SIZE + 'px monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      ctx.fillStyle = p.inside ? colors.insideChar : colors.outsideChar;
+      ctx.fillText(p.char, p.x, p.y);
+    }
+  }
+
+  // --- Init ---
+  resize();
+  draw();
+})();
   </script>
 </body>
 </html>
