@@ -43,6 +43,14 @@ Posts use the archetype at `archetypes/blog.md` with front matter including titl
 
 Automated via GitHub Actions (`.github/workflows/gh-pages.yml`). Push to main branch triggers build and deploy to GitHub Pages. The workflow auto-resolves base URL for user/org pages vs project pages.
 
+## Tools
+
+- **QR Codes**: Use `qrrs` for QR code generation. Supports `--terminal` flag to display in terminal without saving to a file (e.g., `qrrs -t "https://example.com"`).
+
+## Custom Pages
+
+- **404 page**: `layouts/404.html` — animated typographic grid canvas. See [docs/animation.md](docs/animation.md) for the full design spec, architecture decisions, key parameters, and how to modify it.
+
 ## Requirements
 
 - **Hugo Extended**: v0.136.5+ (standard Hugo won't work)
