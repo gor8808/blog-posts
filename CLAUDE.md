@@ -67,6 +67,10 @@ Use Chrome DevTools MCP to run and visually test the site:
 4. Test interactions: `evaluate_script` to simulate mouse events, toggle themes (`document.documentElement.setAttribute('data-bs-theme', 'light')`)
 5. Test viewports: `resize_page` for mobile (500x844) and desktop (1440x900)
 
+## Analytics
+
+Site statistics are collected using [GoatCounter](https://www.goatcounter.com/) (privacy-friendly, no cookies). Dashboard: https://gorblog.goatcounter.com. The tracking script is in `layouts/_partials/head/custom-head.html` and only loads in production.
+
 ## Requirements
 
 - **Hugo Extended**: v0.136.5+ (standard Hugo won't work)
