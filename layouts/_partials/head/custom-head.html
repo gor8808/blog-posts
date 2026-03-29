@@ -1,1 +1,5 @@
 <!-- Custom head -->
+{{- if eq (hugo.Environment) "production" -}}
+<script data-goatcounter="https://gorblog.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+{{- end -}}
