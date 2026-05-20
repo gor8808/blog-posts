@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="{{ site.Language.Lang }}" data-bs-theme="{{ if eq site.Params.doks.colorMode `dark` }}dark{{ else if eq site.Params.doks.colorMode `light` }}light{{ else }}auto{{ end }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>404 — Page Not Found</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Helvetica Neue', system-ui, -apple-system, sans-serif; }
+    body { transition: background-color 0.5s ease; }
+    html[data-bs-theme="dark"] body { background: #0f0f1a; }
+    html[data-bs-theme="light"] body { background: #fafafa; }
+    canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+    .center-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .title-404 {
+      font-size: clamp(80px, 15vw, 160px);
+      font-weight: 200;
+      letter-spacing: 24px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: color 0.5s ease;
+    }
+    html[data-bs-theme="dark"] .title-404 { color: rgba(220, 220, 240, 0.85); }
+    html[data-bs-theme="light"] .title-404 { color: rgba(40, 40, 60, 0.75); }
+
+    .subtitle-text {
+      font-size: clamp(12px, 1.5vw, 16px);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: color 0.5s ease;
+    }
+    html[data-bs-theme="dark"] .subtitle-text { color: rgba(180, 180, 200, 0.6); }
+    html[data-bs-theme="light"] .subtitle-text { color: rgba(80, 80, 100, 0.5); }
+
+    .home-link {
+      display: inline-block;
+      margin-top: 40px;
+      font-size: 14px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding-bottom: 2px;
+      opacity: 0;
+      pointer-events: auto;
+      transition: color 0.3s ease, border-color 0.3s ease;
+    }
+    html[data-bs-theme="dark"] .home-link { color: rgba(217, 119, 87, 0.8); border-bottom: 1px solid rgba(217, 119, 87, 0.3); }
+    html[data-bs-theme="light"] .home-link { color: rgba(200, 90, 55, 0.8); border-bottom: 1px solid rgba(200, 90, 55, 0.3); }
+    .home-link:hover { color: rgba(217, 119, 87, 1); border-bottom-color: rgba(217, 119, 87, 0.6); }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" aria-hidden="true"></canvas>
+  <div class="center-content">
+    <div class="title-404" id="title">404</div>
+    <div class="subtitle-text" id="subtitle" style="margin-top: 16px;">Page not found</div>
+    <a href="/" class="home-link" id="homeLink">Go Home</a>
+  </div>
+
+  <script>
+  (function() {
+    'use strict';
+
+    (function resolveAutoTheme() {
+      var html = document.documentElement;
+      if (html.getAttribute('data-bs-theme') === 'auto') {
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        html.setAttribute('data-bs-theme', prefersDark ? 'dark' : 'light');
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+          html.setAttribute('data-bs-theme', e.matches ? 'dark' : 'light');
+        });
+      }
+    })();
+
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+    var titleEl = document.getElementById('title');
+    var subtitleEl = document.getElementById('subtitle');
+    var homeLinkEl = document.getElementById('homeLink');
+
+    var width, height, dpr;
+    var particles = [];
+    var mouseX = -9999, mouseY = -9999;
+    var startTime = performance.now();
+
+    var PARTICLE_COUNT = 100;
+    var REPEL_RADIUS = 100;
+    var REPEL_STRENGTH = 0.8;
+    var SPRING_BACK = 0.015;
+    var DAMPING = 0.97;
+
+    function isDark() {
+      return document.documentElement.getAttribute('data-bs-theme') !== 'light';
+    }
+
+    function getColors() {
+      if (isDark()) {
+        return {
+          bg: [15, 15, 26],
+          particleFar:  [180, 180, 210],
+          particleMid:  [200, 200, 230],
+          particleNear: [220, 220, 240],
+        };
+      } else {
+        return {
+          bg: [250, 250, 250],
+          particleFar:  [60, 60, 80],
+          particleMid:  [70, 70, 90],
+          particleNear: [80, 80, 100],
+        };
+      }
+    }
+
+    var currentColors = getColors();
+    var targetColors = currentColors;
+    var colorLerp = 1;
+
+    function lerpColor(a, b, t) {
+      return [
+        a[0] + (b[0] - a[0]) * t,
+        a[1] + (b[1] - a[1]) * t,
+        a[2] + (b[2] - a[2]) * t,
+      ];
+    }
+
+    function createParticle() {
+      var layer = Math.random();
+      var depth;
+      if (layer < 0.5) depth = 0;
+      else if (layer < 0.85) depth = 1;
+      else depth = 2;
+
+      var speedMult = [0.15, 0.25, 0.4][depth];
+      var sizeMult = [1.5, 2.5, 3.5][depth];
+      var alphaBase = [0.12, 0.22, 0.35][depth];
+
+      return {
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * speedMult,
+        vy: (Math.random() - 0.5) * speedMult,
+        baseVx: (Math.random() - 0.5) * speedMult,
+        baseVy: (Math.random() - 0.5) * speedMult,
+        size: sizeMult + Math.random() * 1.5,
+        depth: depth,
+        alphaBase: alphaBase,
+        breathSpeed: 0.5 + Math.random() * 1.5,
+        breathPhase: Math.random() * Math.PI * 2,
+        entranceDelay: Math.random() * 800,
+      };
+    }
+
+    function initParticles() {
+      particles = [];
+      for (var i = 0; i < PARTICLE_COUNT; i++) {
+        particles.push(createParticle());
+      }
+    }
+
+    function resize() {
+      dpr = window.devicePixelRatio || 1;
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      initParticles();
+      startTime = performance.now();
+    }
+
+    var resizeTimer;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(resize, 150);
+    });
+
+    window.addEventListener('mousemove', function(e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+    window.addEventListener('mouseleave', function() {
+      mouseX = -9999;
+      mouseY = -9999;
+    });
+    window.addEventListener('touchmove', function(e) {
+      mouseX = e.touches[0].clientX;
+      mouseY = e.touches[0].clientY;
+    }, { passive: true });
+    window.addEventListener('touchend', function() {
+      mouseX = -9999;
+      mouseY = -9999;
+    });
+
+    function easeOutCubic(t) {
+      return 1 - Math.pow(1 - t, 3);
+    }
+
+    function animateEntrance(elapsed) {
+      var titleProgress = Math.max(0, Math.min(1, (elapsed - 400) / 800));
+      var titleEased = easeOutCubic(titleProgress);
+      titleEl.style.opacity = titleEased;
+      titleEl.style.transform = 'translateY(' + (20 * (1 - titleEased)) + 'px)';
+
+      var subProgress = Math.max(0, Math.min(1, (elapsed - 800) / 800));
+      subtitleEl.style.opacity = easeOutCubic(subProgress);
+
+      var linkProgress = Math.max(0, Math.min(1, (elapsed - 1400) / 800));
+      homeLinkEl.style.opacity = easeOutCubic(linkProgress);
+    }
+
+    function animate(now) {
+      var elapsed = now - startTime;
+
+      if (colorLerp < 1) {
+        colorLerp = Math.min(1, colorLerp + 0.02);
+      }
+      var bg = colorLerp < 1 ? lerpColor(currentColors.bg, targetColors.bg, colorLerp) : targetColors.bg;
+
+      ctx.fillStyle = 'rgb(' + Math.round(bg[0]) + ',' + Math.round(bg[1]) + ',' + Math.round(bg[2]) + ')';
+      ctx.fillRect(0, 0, width, height);
+
+      var colorKeys = ['particleFar', 'particleMid', 'particleNear'];
+
+      for (var i = 0; i < particles.length; i++) {
+        var p = particles[i];
+
+        var entranceProgress = Math.max(0, Math.min(1, (elapsed - p.entranceDelay) / 600));
+        if (entranceProgress <= 0) continue;
+        var entranceAlpha = easeOutCubic(entranceProgress);
+
+        var dx = p.x - mouseX;
+        var dy = p.y - mouseY;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        var proximityBoost = 0;
+
+        if (dist < REPEL_RADIUS && dist > 0) {
+          var force = (REPEL_RADIUS - dist) / REPEL_RADIUS * REPEL_STRENGTH;
+          var angle = Math.atan2(dy, dx);
+          p.vx += Math.cos(angle) * force;
+          p.vy += Math.sin(angle) * force;
+          proximityBoost = (1 - dist / REPEL_RADIUS) * 0.2;
+        }
+
+        p.vx += (p.baseVx - p.vx) * SPRING_BACK;
+        p.vy += (p.baseVy - p.vy) * SPRING_BACK;
+
+        p.vx *= DAMPING;
+        p.vy *= DAMPING;
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        var margin = 20;
+        if (p.x < -margin) p.x = width + margin;
+        if (p.x > width + margin) p.x = -margin;
+        if (p.y < -margin) p.y = height + margin;
+        if (p.y > height + margin) p.y = -margin;
+
+        var edgeFade = 1;
+        if (p.x < margin) edgeFade = Math.min(edgeFade, (p.x + margin) / (margin * 2));
+        if (p.x > width - margin) edgeFade = Math.min(edgeFade, (width + margin - p.x) / (margin * 2));
+        if (p.y < margin) edgeFade = Math.min(edgeFade, (p.y + margin) / (margin * 2));
+        if (p.y > height - margin) edgeFade = Math.min(edgeFade, (height + margin - p.y) / (margin * 2));
+
+        var breath = Math.sin(elapsed * 0.001 * p.breathSpeed + p.breathPhase) * 0.06;
+
+        var alpha = (p.alphaBase + breath + proximityBoost) * entranceAlpha * Math.max(0, edgeFade);
+
+        var colorKey = colorKeys[p.depth];
+        var c = colorLerp < 1 ? lerpColor(currentColors[colorKey], targetColors[colorKey], colorLerp) : targetColors[colorKey];
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(' + Math.round(c[0]) + ',' + Math.round(c[1]) + ',' + Math.round(c[2]) + ',' + Math.max(0, alpha).toFixed(3) + ')';
+        ctx.fill();
+      }
+
+      animateEntrance(elapsed);
+
+      requestAnimationFrame(animate);
+    }
+
+    new MutationObserver(function(mutations) {
+      for (var j = 0; j < mutations.length; j++) {
+        if (mutations[j].attributeName === 'data-bs-theme') {
+          currentColors = targetColors;
+          targetColors = getColors();
+          colorLerp = 0;
+        }
+      }
+    }).observe(document.documentElement, { attributes: true });
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      resize();
+      titleEl.style.opacity = 1;
+      titleEl.style.transform = 'translateY(0)';
+      subtitleEl.style.opacity = 1;
+      homeLinkEl.style.opacity = 1;
+      var colors = getColors();
+      ctx.fillStyle = 'rgb(' + colors.bg.join(',') + ')';
+      ctx.fillRect(0, 0, width, height);
+      var ck = ['particleFar', 'particleMid', 'particleNear'];
+      for (var k = 0; k < particles.length; k++) {
+        var pp = particles[k];
+        var cc = colors[ck[pp.depth]];
+        ctx.beginPath();
+        ctx.arc(pp.x, pp.y, pp.size, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(' + cc.join(',') + ',' + pp.alphaBase.toFixed(3) + ')';
+        ctx.fill();
+      }
+    } else {
+      resize();
+      requestAnimationFrame(animate);
+    }
+  })();
+  </script>
+</body>
+</html>
